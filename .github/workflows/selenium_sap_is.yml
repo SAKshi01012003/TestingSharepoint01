@@ -1,18 +1,20 @@
 
-name: Fetch SAP Integration Suite Cookies
+name: Fetch SAP Integration Suite Cookies for sharepoint 
 
 on:
   schedule:
     # - cron: '30 2 * * *'  # 8:00 AM IST = 2:30 AM UTC
-    #- cron: '0 4 * * *'  # 9:30 AM IST = 4:0 AM UTC    (This is the original)
-    #- cron: '50 * * * *'  # This runs at 00:00 UTC = 5:30 AM IST
+    # - cron: '0 4 * * *'  # 9:30 AM IST = 4:0 AM UTC
     # - cron: '45 6 * * *'  # ⏰ Dispatch Time: 11:50 AM IST (UTC+5:30)
-
+    #Dummy Commit
+    #Dummy Commit 
   workflow_dispatch:       # Manual trigger
 
 jobs:
   fetch-and-send-cookies:
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+
 
     steps:
       - name: Checkout Repository
@@ -62,7 +64,7 @@ jobs:
           fi
           echo "::set-output name=cookies::${UAT_COOKIES}"
 
-     # --- PROD Tenant ---
+      # --- PROD Tenant ---
       - name: Run Selenium for PROD Environment
         id: prod_selenium
         env:
@@ -94,7 +96,7 @@ jobs:
               <CookieString>$(echo "${{ steps.uat_selenium.outputs.cookies }}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&apos;/g')</CookieString>
             </Tenant>
             <Tenant name=\"PROD\">
-             <CookieString>$(echo "${{ steps.prod_selenium.outputs.cookies }}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&apos;/g')</CookieString>
+              <CookieString>$(echo "${{ steps.prod_selenium.outputs.cookies }}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&apos;/g')</CookieString>
             </Tenant>
           </TenantCookies>"
 
